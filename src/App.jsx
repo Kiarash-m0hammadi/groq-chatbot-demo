@@ -1,10 +1,10 @@
 import AppName from "./components/AppName";
 import Button from "./components/Button";
 import Chat from "./components/Chat";
-import { groqClient } from "./config/groq-config";
 import Headings from "./components/Headings";
 import SearchBar from "./components/SearchBar";
 import { useLocalStorage } from "./hooks/useLocalStorage";
+import { useChatHandlers } from "./hooks/useChatHandlers";
 
 const App = () => {
   // Initialize state with an empty string
@@ -13,60 +13,7 @@ const App = () => {
     chatMessages: [],
   });
 
-  const handleInputChange = (event) => {
-    // Update state with the new input value
-    setState((prevState) => ({
-      ...prevState,
-      inputValue: event.target.value,
-    }));
-  };
-
-  // Send the prompt to the API
-  const handleSend = async () => {
-    if (state.inputValue.trim() === "") return;
-
-    const chatPrompt = `You: ${state.inputValue}`;
-
-    try {
-      const chatCompletion = await groqClient.chat.completions.create({
-        messages: [
-          {
-            role: "user",
-            content: state.inputValue,
-          },
-        ],
-        model: "llama3-8b-8192",
-      });
-
-      const responseContent =
-        chatCompletion.choices[0]?.message?.content || "No response";
-
-      const newChatMessage = {
-        prompt: chatPrompt,
-        response: responseContent,
-      };
-
-      // Append the new chat message to the array
-      setState((prevState) => ({
-        ...prevState,
-        chatMessages: [...prevState.chatMessages, newChatMessage],
-        inputValue: "",
-      }));
-    } catch (error) {
-      console.error("Error fetching chat completion:", error);
-      const errorMessage = "Error fetching chat completion";
-      const newChatMessage = {
-        prompt: chatPrompt,
-        response: errorMessage,
-      };
-      // Append the error message to the array
-      setState((prevState) => ({
-        ...prevState,
-        chatMessages: [...prevState.chatMessages, newChatMessage],
-        inputValue: "",
-      }));
-    }
-  };
+  const { handleInputChange, handleSend } = useChatHandlers(state, setState);
 
   const handleClearChat = () => {
     // Clear the chat messages state
