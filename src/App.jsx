@@ -1,33 +1,17 @@
 import AppName from "./components/AppName";
 import Button from "./components/Button";
 import Chat from "./components/Chat";
-import Groq from "groq-sdk";
+import { groqClient } from "./config/groq-config";
 import Headings from "./components/Headings";
 import SearchBar from "./components/SearchBar";
-import { useState, useEffect } from "react";
-
-const groq = new Groq({
-  apiKey: import.meta.env.VITE_GROQ_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 const App = () => {
   // Initialize state with an empty string
-  const [state, setState] = useState(() => {
-    const localValue = localStorage.getItem("appState");
-    if (localValue === null) {
-      return {
-        inputValue: "",
-        chatMessages: [],
-      };
-    }
-    return JSON.parse(localValue);
+  const [state, setState] = useLocalStorage("appState", {
+    inputValue: "",
+    chatMessages: [],
   });
-
-  // Save state to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("appState", JSON.stringify(state));
-  }, [state]);
 
   const handleInputChange = (event) => {
     // Update state with the new input value
@@ -44,7 +28,7 @@ const App = () => {
     const chatPrompt = `You: ${state.inputValue}`;
 
     try {
-      const chatCompletion = await groq.chat.completions.create({
+      const chatCompletion = await groqClient.chat.completions.create({
         messages: [
           {
             role: "user",
