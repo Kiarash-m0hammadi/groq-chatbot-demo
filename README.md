@@ -11,7 +11,7 @@
 
 2. **Clone the repository:**
    ```sh
-   git clone <repository_url>
+   git clone <https://github.com/Kiarash-m0hammadi/groq-chatbot-demo>
    ```
 3. **Navigate to the project directory:**
    ```sh
@@ -38,7 +38,7 @@ The Groq API key is required to authenticate requests to the Groq service. Follo
 
 1. **Locate the [`.env`](.env) file:**
 
-   - The `.env` file should be in the root directory of the project.
+   - The `.env` file should be in the project's root directory.
 
 2. **Add your Groq API key:**
 
