@@ -1,4 +1,7 @@
+// App.jsx
 import React, { useState } from "react";
+import MessageList from "./MessageList";
+import MessageInput from "./MessageInput";
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -21,19 +24,8 @@ function App() {
 
   return (
     <div>
-      <div>
-        {messages.map((message, index) => (
-          <div key={index}>
-            <strong>{message.sender}:</strong> {message.text}
-          </div>
-        ))}
-      </div>
-      <input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        type="text"
-      />
-      <button onClick={handleSend}>Send</button>
+      <MessageList messages={messages} />
+      <MessageInput input={input} setInput={setInput} handleSend={handleSend} />
     </div>
   );
 }
