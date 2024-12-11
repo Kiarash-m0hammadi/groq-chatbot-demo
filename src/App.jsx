@@ -13,19 +13,10 @@ const App = () => {
     chatMessages: [],
   });
 
-  const { handleInputChange, handleSend } = useChatHandlers(state, setState);
-
-  const handleClearChat = () => {
-    // Clear the chat messages state
-    setState((prevState) => ({
-      ...prevState,
-      chatMessages: [],
-      inputValue: "",
-    }));
-
-    // Remove chat history from localStorage
-    localStorage.removeItem("appState");
-  };
+  const { handleInputChange, handleSend, handleClearChat } = useChatHandlers(
+    state,
+    setState
+  );
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {

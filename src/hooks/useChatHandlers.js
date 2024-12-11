@@ -52,5 +52,14 @@ export const useChatHandlers = (state, setState) => {
     }
   };
 
-  return { handleInputChange, handleSend };
+  const handleClearChat = () => {
+    setState((prevState) => ({
+      ...prevState,
+      chatMessages: [],
+      inputValue: "",
+    }));
+    localStorage.removeItem("appState");
+  };
+
+  return { handleInputChange, handleSend, handleClearChat };
 };
