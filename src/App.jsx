@@ -2,7 +2,7 @@ import AppName from "./components/AppName";
 import Button from "./components/Button";
 import Chat from "./components/Chat";
 import Headings from "./components/Headings";
-import SearchBar from "./components/SearchBar";
+import SendMessageForm from "./components/SendMessageForm";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { useChatHandlers } from "./hooks/useChatHandlers";
 
@@ -87,30 +87,12 @@ const App = () => {
           </div>
         )}
 
-        <div className="searchBar-container">
-          <SearchBar>
-            <textarea
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-              placeholder="Enter your text"
-              value={state.inputValue}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-              rows="3"
-            />
-            <div className="mt-2">
-              <Button
-                textContent="Send"
-                handleClick={handleSend}
-                className={`${
-                  state.inputValue.trim() === ""
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-500 hover:bg-blue-600"
-                } text-white px-6 py-2 rounded-lg w-full`}
-                disabled={state.inputValue.trim() === ""}
-              />
-            </div>
-          </SearchBar>
-        </div>
+        <SendMessageForm
+          inputValue={state.inputValue}
+          onChange={handleInputChange}
+          onSend={handleSend}
+          onKeyDown={handleKeyDown}
+        />
       </div>
     </div>
   );
