@@ -6,16 +6,26 @@ function App() {
 
   const handleSend = () => {
     if (input.trim() !== "") {
-      setMessages([...messages, input]);
+      setMessages([...messages, { sender: "User", text: input }]);
       setInput("");
+
+      // Simulate a demo answer
+      setTimeout(() => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { sender: "Bot", text: "This is a demo answer." },
+        ]);
+      }, 500);
     }
   };
 
   return (
     <div>
       <div>
-        {messages.map((text, index) => (
-          <div key={index}>{text}</div>
+        {messages.map((message, index) => (
+          <div key={index}>
+            <strong>{message.sender}:</strong> {message.text}
+          </div>
         ))}
       </div>
       <input
